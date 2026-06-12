@@ -75,6 +75,7 @@ DATA_INFOS = {
     ),
     "Bank_Customer_Churn": DataInfo(data_name="Bank_Customer_Churn", data_id=46911, tab_arena=True),
     "heloc": DataInfo(data_name="heloc", data_id=46911, tab_arena=True),
+    #"heloc2": DataInfo(data_name="heloc", data_id=46932, tab_arena=True),
     "jm1": DataInfo(data_name="jm1", data_id=46979, tab_arena=True),
     "E-CommereShippingData": DataInfo(data_name="E-CommereShippingData", data_id=46924, tab_arena=True),
     "online_shoppers_intention": DataInfo(data_name="online_shoppers_intention", data_id=46947, tab_arena=True),
@@ -96,6 +97,60 @@ DATA_INFOS = {
     ),
     "GiveMeSomeCredit": DataInfo(data_name="GiveMeSomeCredit", data_id=46929, tab_arena=True),
     # END Tab-Arena
+    # START Grinsztajn et al. - "Why tree-based models still outperform deep learning on typical tabular data"
+    # https://arxiv.org/abs/2207.08815 - OpenML suites 334 (cat+num) and 337 (num-only) classification
+    "credit": DataInfo(data_name="credit", data_id=44089),  # n_samples=16_714, n_features=11, n_classes=2
+    "covertype_binary": DataInfo(data_name="covertype", data_id=44121),  # n_samples=566_602, n_features=11, n_classes=2
+    "pol": DataInfo(data_name="pol", data_id=44122),  # n_samples=10_082, n_features=27, n_classes=2
+    "house_16H": DataInfo(data_name="house_16H", data_id=44123),  # n_samples=13_488, n_features=17, n_classes=2
+    "MagicTelescope": DataInfo(data_name="MagicTelescope", data_id=44125),  # n_samples=13_376, n_features=11, n_classes=2
+    "MiniBooNE": DataInfo(data_name="MiniBooNE", data_id=44128),  # n_samples=72_998, n_features=51, n_classes=2
+    "eye_movements": DataInfo(data_name="eye_movements", data_id=44130),  # n_samples=7_608, n_features=21, n_classes=2
+    "default-of-credit-card-clients": DataInfo(data_name="default-of-credit-card-clients", data_id=45020),  # n_samples=13_272, n_features=21, n_classes=2
+    "jannis": DataInfo(data_name="jannis", data_id=45021),  # n_samples=57_580, n_features=55, n_classes=2
+    "california": DataInfo(data_name="california", data_id=45028),  # n_samples=20_634, n_features=9, n_classes=2 (binary: above/below median price)
+    "albert": DataInfo(data_name="albert", data_id=45035),  # n_samples=58_252, n_features=32, n_classes=2
+    "road-safety": DataInfo(data_name="road-safety", data_id=45038),  # n_samples=111_762, n_features=33, n_classes=2
+    "compas-two-years": DataInfo(data_name="compas-two-years", data_id=45039),  # n_samples=4_966, n_features=12, n_classes=2
+    # END Grinsztajn et al.
+    # START Holzmuller et al. - "Better by default: Strong pre-tuned MLPs and boosted trees on tabular data"
+    # https://arxiv.org/abs/2407.04491 - AutoML Benchmark OpenML suite 271 (classification)
+    "vehicle": DataInfo(data_name="vehicle", data_id=54),  # n_samples=846, n_features=19, n_classes=4
+    "mozilla4": DataInfo(data_name="mozilla4", data_id=1046),  # n_samples=15_545, n_features=6, n_classes=2
+    "pc4": DataInfo(data_name="pc4", data_id=1049),  # n_samples=1_458, n_features=38, n_classes=2
+    "kc1": DataInfo(data_name="kc1", data_id=1067),  # n_samples=2_109, n_features=22, n_classes=2
+    "airlines": DataInfo(data_name="airlines", data_id=1169),  # n_samples=539_383, n_features=8, n_classes=2
+    "phoneme": DataInfo(data_name="phoneme", data_id=1489),  # n_samples=5_404, n_features=6, n_classes=2
+    "numerai28.6": DataInfo(data_name="numerai28.6", data_id=23517),  # n_samples=96_320, n_features=22, n_classes=2
+    "connect-4": DataInfo(data_name="connect-4", data_id=40668),  # n_samples=67_557, n_features=43, n_classes=3
+    "dna": DataInfo(data_name="dna", data_id=40670),  # n_samples=3_186, n_features=181, n_classes=3
+    "shuttle": DataInfo(data_name="shuttle", data_id=40685),  # n_samples=58_000, n_features=10, n_classes=7
+    "Satellite": DataInfo(data_name="Satellite", data_id=40900),  # n_samples=5_100, n_features=37, n_classes=6
+    "car": DataInfo(data_name="car", data_id=40975),  # n_samples=1_728, n_features=7, n_classes=4
+    "Australian": DataInfo(data_name="Australian", data_id=40981),  # n_samples=690, n_features=15, n_classes=2
+    "steel-plates-fault": DataInfo(data_name="steel-plates-fault", data_id=40982),  # n_samples=1_941, n_features=28, n_classes=7
+    "segment": DataInfo(data_name="segment", data_id=40984),  # n_samples=2_310, n_features=20, n_classes=7
+    "jungle_chess_2pcs_raw_endgame_complete": DataInfo(data_name="jungle_chess_2pcs_raw_endgame_complete", data_id=41027),  # n_samples=44_819, n_features=7, n_classes=3
+    "christine": DataInfo(data_name="christine", data_id=41142),  # n_samples=5_418, n_features=1_637, n_classes=2
+    "jasmine": DataInfo(data_name="jasmine", data_id=41143),  # n_samples=2_984, n_features=145, n_classes=2
+    "madeline": DataInfo(data_name="madeline", data_id=41144),  # n_samples=3_140, n_features=260, n_classes=2
+    "philippine": DataInfo(data_name="philippine", data_id=41145),  # n_samples=5_832, n_features=309, n_classes=2
+    "sylvine": DataInfo(data_name="sylvine", data_id=41146),  # n_samples=5_124, n_features=21, n_classes=2
+    "albert_large": DataInfo(data_name="albert", data_id=41147),  # n_samples=425_240, n_features=79, n_classes=2; larger/rawer version than id=45035
+    "MiniBooNE_large": DataInfo(data_name="MiniBooNE", data_id=41150),  # n_samples=130_064, n_features=51, n_classes=2; larger/rawer version than id=44128
+    "ada": DataInfo(data_name="ada", data_id=41156),  # n_samples=4_147, n_features=49, n_classes=2
+    "gina": DataInfo(data_name="gina", data_id=41158),  # n_samples=3_153, n_features=971, n_classes=2
+    "guillermo": DataInfo(data_name="guillermo", data_id=41159),  # n_samples=20_000, n_features=4_297, n_classes=2
+    "riccardo": DataInfo(data_name="riccardo", data_id=41161),  # n_samples=20_000, n_features=4_297, n_classes=2
+    "dilbert": DataInfo(data_name="dilbert", data_id=41163),  # n_samples=10_000, n_features=2_001, n_classes=5
+    "fabert": DataInfo(data_name="fabert", data_id=41164),  # n_samples=8_237, n_features=801, n_classes=7
+    "robert": DataInfo(data_name="robert", data_id=41165),  # n_samples=10_000, n_features=7_201, n_classes=10
+    "volkert": DataInfo(data_name="volkert", data_id=41166),  # n_samples=58_310, n_features=181, n_classes=10
+    "dionis": DataInfo(data_name="dionis", data_id=41167),  # n_samples=416_188, n_features=61, n_classes=355
+    "jannis_large": DataInfo(data_name="jannis", data_id=41168),  # n_samples=83_733, n_features=55, n_classes=4; larger/rawer version than id=45021
+    "helena": DataInfo(data_name="helena", data_id=41169),  # n_samples=65_196, n_features=28, n_classes=100
+    "Click_prediction_small": DataInfo(data_name="Click_prediction_small", data_id=42733),  # n_samples=39_948, n_features=12, n_classes=2
+    # END Holzmuller et al.
     # Some more useful or known datasets, some taken from https://github.com/thomasjpfan/sk_encoder_cv
     "iris": DataInfo(data_name="iris", data_id=61),  # n_samples=150, n_features=4, n_classes=3
     "dresses_sales": DataInfo(data_name="dresses_sales", data_id=23381),  # n_samples=500, n_features=12, n_classes=2
