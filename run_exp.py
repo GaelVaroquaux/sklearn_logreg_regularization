@@ -124,7 +124,8 @@ DATA_INFOS = {
     "numerai28.6": DataInfo(data_name="numerai28.6", data_id=23517),  # n_samples=96_320, n_features=22, n_classes=2
     "connect-4": DataInfo(data_name="connect-4", data_id=40668),  # n_samples=67_557, n_features=43, n_classes=3
     "dna": DataInfo(data_name="dna", data_id=40670),  # n_samples=3_186, n_features=181, n_classes=3
-    "shuttle": DataInfo(data_name="shuttle", data_id=40685),  # n_samples=58_000, n_features=10, n_classes=7
+    # Skipping because it fails
+    #"shuttle": DataInfo(data_name="shuttle", data_id=40685),  # n_samples=58_000, n_features=10, n_classes=7
     "Satellite": DataInfo(data_name="Satellite", data_id=40900),  # n_samples=5_100, n_features=37, n_classes=6
     "car": DataInfo(data_name="car", data_id=40975),  # n_samples=1_728, n_features=7, n_classes=4
     "Australian": DataInfo(data_name="Australian", data_id=40981),  # n_samples=690, n_features=15, n_classes=2
@@ -149,7 +150,8 @@ DATA_INFOS = {
     "dionis": DataInfo(data_name="dionis", data_id=41167),  # n_samples=416_188, n_features=61, n_classes=355
     "jannis_large": DataInfo(data_name="jannis", data_id=41168),  # n_samples=83_733, n_features=55, n_classes=4; larger/rawer version than id=45021
     "helena": DataInfo(data_name="helena", data_id=41169),  # n_samples=65_196, n_features=28, n_classes=100
-    "Click_prediction_small": DataInfo(data_name="Click_prediction_small", data_id=42733),  # n_samples=39_948, n_features=12, n_classes=2
+    # The below fails to download
+    #"Click_prediction_small": DataInfo(data_name="Click_prediction_small", data_id=42733),  # n_samples=39_948, n_features=12, n_classes=2
     # END Holzmuller et al.
     # Some more useful or known datasets, some taken from https://github.com/thomasjpfan/sk_encoder_cv
     "iris": DataInfo(data_name="iris", data_id=61),  # n_samples=150, n_features=4, n_classes=3
@@ -328,7 +330,7 @@ results = []
 from pathlib import Path
 file = Path("logistic_regression_optimal_penalty.csv")
 file.unlink()
-for x in DATA_INFOS.keys():
+for x in list(DATA_INFOS.keys()):
     run = mem.cache(run_single_benchmark)(x, use_splines=False, verbose=1)
     results.append(run)
     df = pl.DataFrame([item for item in run])
