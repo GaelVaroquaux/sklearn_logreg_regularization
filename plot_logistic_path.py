@@ -142,6 +142,7 @@ def plot_regrided_logloss_vs_scaled_C(
     sns.boxenplot(x='x_value', y='log_loss', data=distribution_df, color='lightgray', ax=ax2)
     sns.stripplot(x='x_value', y='log_loss', data=distribution_df, ax=ax2)
     ax2.set_xlabel('')
+    plt.savefig(f'logloss_vs_{xlabel.replace(" ", "_").replace("/", "_divided_by_")}.png', dpi=300, bbox_inches='tight')
 
 
 # %%
