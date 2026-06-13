@@ -1,4 +1,5 @@
 import warnings
+from urllib.error import URLError
 
 import numpy as np
 import polars as pl
@@ -110,7 +111,12 @@ if file.exists():
     file.unlink()
 
 for x in list(DATA_INFOS.keys()):
-    run = mem.cache(run_single_logreg_cv)(x, use_splines=False, verbose=1)
+    try:
+        run = mem.cache(run_single_logreg_cv)(x, use_splines=False, verbose=1)
+    except URLError:
+        # openML troubles
+        print(f'******** skipping {x} URLError/HTTPError ************')
+        continue
     results.append(run)
     df = pl.DataFrame([item for item in run])
     if file.exists():

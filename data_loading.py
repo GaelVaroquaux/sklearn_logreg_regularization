@@ -7,6 +7,7 @@ from dataclasses import dataclass
 import polars as pl
 import polars.selectors as cs
 from sklearn.datasets import fetch_openml
+from urllib.error import URLError
 
 
 @dataclass
@@ -134,13 +135,14 @@ DATA_INFOS = {
     "riccardo": DataInfo(data_name="riccardo", data_id=41161),  # n_samples=20_000, n_features=4_297, n_classes=2
     "dilbert": DataInfo(data_name="dilbert", data_id=41163),  # n_samples=10_000, n_features=2_001, n_classes=5
     "fabert": DataInfo(data_name="fabert", data_id=41164),  # n_samples=8_237, n_features=801, n_classes=7
-    "robert": DataInfo(data_name="robert", data_id=41165),  # n_samples=10_000, n_features=7_201, n_classes=10
+    # Download currently failing
+    #"robert": DataInfo(data_name="robert", data_id=41165),  # n_samples=10_000, n_features=7_201, n_classes=10
     "volkert": DataInfo(data_name="volkert", data_id=41166),  # n_samples=58_310, n_features=181, n_classes=10
     "dionis": DataInfo(data_name="dionis", data_id=41167),  # n_samples=416_188, n_features=61, n_classes=355
     "jannis_large": DataInfo(data_name="jannis", data_id=41168),  # n_samples=83_733, n_features=55, n_classes=4; larger/rawer version than id=45021
     "helena": DataInfo(data_name="helena", data_id=41169),  # n_samples=65_196, n_features=28, n_classes=100
     # The below fails to download
-    #"Click_prediction_small": DataInfo(data_name="Click_prediction_small", data_id=42733),  # n_samples=39_948, n_features=12, n_classes=2
+    # "Click_prediction_small": DataInfo(data_name="Click_prediction_small", data_id=42733),  # n_samples=39_948, n_features=12, n_classes=2
     # END Holzmuller et al.
     # Some more useful or known datasets, some taken from https://github.com/thomasjpfan/sk_encoder_cv
     "iris": DataInfo(data_name="iris", data_id=61),  # n_samples=150, n_features=4, n_classes=3
@@ -173,7 +175,12 @@ DATA_INFOS = {
 def fetch_openml_and_clean(data_info: DataInfo, verbose=1):
     if verbose > 0:
         print(f"  fetching and loading {data_info.data_name} dataset from openml")
-    X, y = fetch_openml(data_id=data_info.data_id, return_X_y=True, as_frame=True)
+    try:
+        X, y = fetch_openml(data_id=data_info.data_id, return_X_y=True, as_frame=True)
+    except ValueError as ex:
+        print(ex)
+        # SuperClass of HTTPError
+        raise URLError(reason=f"fetch_openml failed on {data_info.data_name}")
     X = pl.from_pandas(X, nan_to_null=True)
 
     if data_info.columns_to_remove:
