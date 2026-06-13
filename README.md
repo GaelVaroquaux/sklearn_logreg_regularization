@@ -21,6 +21,8 @@ across a small number of neighboring values of C.
 
 ![n_samples * C](logloss_vs_n_samples_*_Regularization_parameter_C.png)
 
+![C / n_samples](logloss_vs__Regularization_parameter_C__divided_by__n_samples.png)
+
 ![C / mean eigenvalue](logloss_vs_Regularization_parameter_C__divided_by__mean_eigenvalue.png)
 
 ![C / trace gram](logloss_vs_Regularization_parameter_C__divided_by__trace_gram.png)
