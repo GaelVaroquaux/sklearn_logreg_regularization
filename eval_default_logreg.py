@@ -110,7 +110,7 @@ file = Path("logistic_regression_default.csv")
 if file.exists():
     file.unlink()
 
-for x in list(DATA_INFOS.keys())[:2]:
+for x in list(DATA_INFOS.keys()):
     run = mem.cache(run_single_logreg)(x, use_splines=False, verbose=1)
     results.append(run)
     df = pl.DataFrame([item for item in run])
