@@ -127,5 +127,5 @@ for x in list(DATA_INFOS.keys())[::-1]:
 
 # %%
 
-df_all = pl.DataFrame([item for run in results for item in run])
+df_all = pl.DataFrame(results)
 df_all.write_parquet("logistic_regression_default.parquet")
