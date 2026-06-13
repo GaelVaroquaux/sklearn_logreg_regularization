@@ -15,9 +15,17 @@ from sklearn.preprocessing import OneHotEncoder, SplineTransformer
 
 import joblib
 
-mem = joblib.Memory('joblib_cache')
+# Call git to get the current branch name of scikit-learn (installed in ~/dev/scikit-learn)
+import subprocess
+import os
+sklearn_dir = os.path.expanduser("~/dev/scikit-learn")
+sklearn_branch = subprocess.check_output(["git", "-C", sklearn_dir, "rev-parse", "--abbrev-ref", "HEAD"]).strip().decode("utf-8")
+
+mem = joblib.Memory(f'joblib_cache_{sklearn_branch}')
 
 from data_loading import DATA_INFOS, load_data
+
+
 
 
 def get_logreg(use_splines=True):
@@ -128,4 +136,4 @@ for x in list(DATA_INFOS.keys())[::-1]:
 # %%
 
 df_all = pl.DataFrame(results)
-df_all.write_parquet("logistic_regression_default.parquet")
+df_all.write_parquet(f"logistic_regression_default_{sklearn_branch}.parquet")
