@@ -15,7 +15,13 @@ from sklearn.preprocessing import OneHotEncoder, SplineTransformer
 
 import joblib
 
-mem = joblib.Memory('joblib_cache')
+# Call git to get the current branch name of scikit-learn (installed in ~/dev/scikit-learn)
+import subprocess
+import os
+sklearn_dir = os.path.expanduser("~/dev/scikit-learn")
+sklearn_branch = subprocess.check_output(["git", "-C", sklearn_dir, "rev-parse", "--abbrev-ref", "HEAD"]).strip().decode("utf-8")
+
+mem = joblib.Memory(f'joblib_cache_{sklearn_branch}')
 
 from data_loading import DATA_INFOS, load_data
 
