@@ -138,7 +138,8 @@ DATA_INFOS = {
     # Download currently failing
     #"robert": DataInfo(data_name="robert", data_id=41165),  # n_samples=10_000, n_features=7_201, n_classes=10
     "volkert": DataInfo(data_name="volkert", data_id=41166),  # n_samples=58_310, n_features=181, n_classes=10
-    "dionis": DataInfo(data_name="dionis", data_id=41167),  # n_samples=416_188, n_features=61, n_classes=355
+    # Terribly slow to converge with LogisticRegressionCV
+    #"dionis": DataInfo(data_name="dionis", data_id=41167),  # n_samples=416_188, n_features=61, n_classes=355
     "jannis_large": DataInfo(data_name="jannis", data_id=41168),  # n_samples=83_733, n_features=55, n_classes=4; larger/rawer version than id=45021
     "helena": DataInfo(data_name="helena", data_id=41169),  # n_samples=65_196, n_features=28, n_classes=100
     # The below fails to download

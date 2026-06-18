@@ -1,5 +1,6 @@
 import warnings
 from time import perf_counter
+from urllib.error import URLError
 
 import numpy as np
 import polars as pl
@@ -147,9 +148,14 @@ def run_single_benchmark(data_str, use_splines=True, verbose=1):
 results = []
 from pathlib import Path
 file = Path("logistic_regression_optimal_penalty.csv")
-file.unlink()
-for x in list(DATA_INFOS.keys()):
-    run = mem.cache(run_single_benchmark)(x, use_splines=False, verbose=1)
+if file.exists():
+    file.unlink()
+for x in list(DATA_INFOS.keys())[::-1]:
+    try:
+        run = mem.cache(run_single_benchmark)(x, use_splines=False, verbose=1)
+    except URLError:
+        # openML difficulties
+        continue
     results.append(run)
     df = pl.DataFrame([item for item in run])
     if file.exists():

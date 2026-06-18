@@ -159,9 +159,9 @@ def run_single_benchmark(data_str, param_sweep=("C", [0.01, 0.1, 1, 10, 100]), f
     return result_list
 
 
-DATASETS = ["porto_seguro", ]# "jannis_large", "census_income_kdd"]
+DATASETS = ["porto_seguro", "census_income_kdd"]# , "jannis_large"]
 
-FRACTIONS = [.1, .25, .5, .75,  1]
+FRACTIONS = [.05, .1, .25, .5, .75,  1][::-1]
 
 # %%
 

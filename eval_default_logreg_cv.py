@@ -14,7 +14,14 @@ from sklearn.preprocessing import OneHotEncoder, SplineTransformer
 
 import joblib
 
-mem = joblib.Memory('joblib_cache')
+
+# Call git to get the current branch name of scikit-learn (installed in ~/dev/scikit-learn)
+import subprocess
+import os
+sklearn_dir = os.path.expanduser("~/dev/scikit-learn")
+sklearn_branch = subprocess.check_output(["git", "-C", sklearn_dir, "rev-parse", "--abbrev-ref", "HEAD"]).strip().decode("utf-8")
+
+mem = joblib.Memory(f'joblib_cache_{sklearn_branch}')
 
 from data_loading import DATA_INFOS, load_data
 
@@ -106,7 +113,7 @@ def run_single_logreg_cv(data_str, use_splines=True, verbose=1):
 
 results = []
 from pathlib import Path
-file = Path("logistic_regression_cv_default.csv")
+file = Path("logistic_regressioncv_default.csv")
 if file.exists():
     file.unlink()
 
@@ -118,13 +125,8 @@ for x in list(DATA_INFOS.keys()):
         print(f'******** skipping {x} URLError/HTTPError ************')
         continue
     results.append(run)
-    df = pl.DataFrame([item for item in run])
-    if file.exists():
-        df_old = pl.read_csv(file)
-        df = pl.concat([df, df_old])  # new on top
-    df.write_csv(file)
 
 # %%
 
-df_all = pl.DataFrame([item for run in results for item in run])
-df_all.write_parquet("logistic_regression_cv_default.parquet")
+df_all = pl.DataFrame(results)
+df_all.write_parquet(f"logistic_regressioncv_default_{sklearn_branch}.parquet")
