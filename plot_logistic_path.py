@@ -177,11 +177,13 @@ loss_at_constant_parametrization[name] = distribution
 # Now plot the same but with the x-axis as C / n_samples to see if it aligns better across datasets.
 n_samples_per_dataset = df.groupby('dataset')['n_samples'].first()
 x_values = np.logspace(-2, 7, 100)
-plot_regrided_logloss_vs_scaled_C(
+name = ' Regularization parameter C / n_samples'
+distribution = plot_regrided_logloss_vs_scaled_C(
     pivot_table=pivot_table,
     scaling_factor_per_dataset=1. / n_samples_per_dataset,
-    xlabel=' Regularization parameter C / n_samples',
+    xlabel=name,
 )
+loss_at_constant_parametrization[name] = distribution
 
 # Now plot the same but with the x-axis as C / sqrt(n_samples) to see if it aligns better across datasets.
 n_samples_per_dataset = df.groupby('dataset')['n_samples'].first()
