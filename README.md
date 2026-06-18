@@ -5,7 +5,13 @@ This repository runs empirical studies across many real-life tabular
 datasets to come up with good choices of regularization parameter for
 LogisticRegression.
 
-## Regularization paths
+## Comparing log_loss at fixed value of a given parametrization
+
+![Summary](comparison_of_parametrizations.png)
+
+
+
+## Details: Regularization paths
 
 The figures show:
 

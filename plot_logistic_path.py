@@ -143,27 +143,36 @@ def plot_regrided_logloss_vs_scaled_C(
     sns.stripplot(x='x_value', y='log_loss', data=distribution_df, ax=ax2)
     ax2.set_xlabel('')
     plt.savefig(f'logloss_vs_{xlabel.replace(" ", "_").replace("/", "_divided_by_")}.png', dpi=300, bbox_inches='tight')
+    return distribution_df
 
 
 # %%
+# Plots as different parametrizations of the regularization parameter C to see if it aligns better across datasets.
+
+# Accumulate the distributions for a final plot
+loss_at_constant_parametrization = {}
+
 # Now plot the same but with the x-axis as C to see if it aligns better across datasets.
 constant_one_per_dataset = df.groupby('dataset')['n_samples'].first().copy()
 constant_one_per_dataset[:] = 1
-plot_regrided_logloss_vs_scaled_C(
+name = 'Regularization parameter C'
+distributions = plot_regrided_logloss_vs_scaled_C(
     pivot_table=pivot_table,
     scaling_factor_per_dataset=constant_one_per_dataset,
-    xlabel='Regularization parameter C',
+    xlabel=name,
 )
-
+loss_at_constant_parametrization[name] = distributions
 
 # Now plot the same but with the x-axis as n_samples * C to see if it aligns better across datasets.
 n_samples_per_dataset = df.groupby('dataset')['n_samples'].first()
 x_values = np.logspace(-2, 7, 100)
-plot_regrided_logloss_vs_scaled_C(
+name = 'n_samples * Regularization parameter C'
+distribution = plot_regrided_logloss_vs_scaled_C(
     pivot_table=pivot_table,
     scaling_factor_per_dataset=n_samples_per_dataset,
-    xlabel='n_samples * Regularization parameter C',
+    xlabel=name,
 )
+loss_at_constant_parametrization[name] = distribution
 
 # Now plot the same but with the x-axis as C / n_samples to see if it aligns better across datasets.
 n_samples_per_dataset = df.groupby('dataset')['n_samples'].first()
@@ -177,21 +186,25 @@ plot_regrided_logloss_vs_scaled_C(
 # Now plot the same but with the x-axis as C / sqrt(n_samples) to see if it aligns better across datasets.
 n_samples_per_dataset = df.groupby('dataset')['n_samples'].first()
 x_values = np.logspace(-2, 7, 100)
-plot_regrided_logloss_vs_scaled_C(
+name = ' Regularization parameter C / sqrt n_samples'
+distribution = plot_regrided_logloss_vs_scaled_C(
     pivot_table=pivot_table,
     scaling_factor_per_dataset=1. / np.sqrt(n_samples_per_dataset),
-    xlabel=' Regularization parameter C / sqrt n_samples',
+    xlabel=name,
 )
+loss_at_constant_parametrization[name] = distribution
 
 
 # Now plot the same but with the x-axis as C / log(n_samples) to see if it aligns better across datasets.
 n_samples_per_dataset = df.groupby('dataset')['n_samples'].first()
 x_values = np.logspace(-2, 7, 100)
-plot_regrided_logloss_vs_scaled_C(
+name = ' Regularization parameter C / log n_samples'
+distribution = plot_regrided_logloss_vs_scaled_C(
     pivot_table=pivot_table,
     scaling_factor_per_dataset=1. / np.log(n_samples_per_dataset),
-    xlabel=' Regularization parameter C / log n_samples',
+    xlabel=name,
 )
+loss_at_constant_parametrization[name] = distribution
 
 # Now plot the same but with the x-axis as C / trace_gram to see if it aligns better across datasets.
 trace_gram_per_dataset = df.groupby('dataset')['trace_gram'].first()
@@ -200,18 +213,48 @@ n_features_per_dataset = df.groupby('dataset')['n_features'].first()
 # Actually, we want the mean eigenvalue, which is trace_gram / n_features.
 mean_eigenvalue_per_dataset = trace_gram_per_dataset / n_features_per_dataset
 x_values = np.logspace(-11, 4, 100)
-plot_regrided_logloss_vs_scaled_C(
+name = 'Regularization parameter C / mean eigenvalue'
+distribution = plot_regrided_logloss_vs_scaled_C(
     pivot_table=pivot_table,
     scaling_factor_per_dataset=1 / mean_eigenvalue_per_dataset,
-    xlabel='Regularization parameter C / mean eigenvalue',
+    xlabel=name,
 )
+loss_at_constant_parametrization[name] = distribution
 
 
-
-plot_regrided_logloss_vs_scaled_C(
+name = 'Regularization parameter C / trace_gram'
+distribution = plot_regrided_logloss_vs_scaled_C(
     pivot_table=pivot_table,
     scaling_factor_per_dataset=1 / trace_gram_per_dataset,
-    xlabel='Regularization parameter C / trace_gram',
+    xlabel=name,
 )
+loss_at_constant_parametrization[name] = distribution
+
+# %%
+# Concatenate the dfs in dictionnary loss_at_constant_parametrization into a big df 
+big_df = pd.concat(loss_at_constant_parametrization.values(), keys=loss_at_constant_parametrization.keys())
+big_df = big_df.reset_index()
+# rename the columns to have "name" instead of "level_0"
+big_df = big_df.rename(columns={'level_0': 'name'})
+
+# Select only the results not "around min"
+results_at_default = big_df[big_df["x_value"] != 'around\nmin']
+
+# Compute the median log_loss for each name to order the boxplots by median log_loss
+median_log_loss = results_at_default.groupby("name")["log_loss"].median().sort_values(ascending=False)
+results_at_default["name"] = pd.Categorical(results_at_default["name"],
+                                            categories=median_log_loss.index,
+                                            ordered=True)
+# Do stripplots and boxenplots on the results_at_default
+
+import matplotlib.pyplot as plt
+
+plt.figure(figsize=(6, 8))
+sns.stripplot(y="name", x="log_loss", data=results_at_default, dodge=True, jitter=True, orient="h", order=median_log_loss.index)
+sns.boxenplot(y="name", x="log_loss", data=results_at_default, dodge=True, linewidth=1, orient="h", order=median_log_loss.index)
+plt.legend(bbox_to_anchor=(1.05, 1), loc='upper left')
+plt.savefig('comparison_of_parametrizations.png', dpi=300, bbox_inches='tight')
+plt.show()
+
 
 # %%
